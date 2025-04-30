@@ -205,7 +205,7 @@
 				ws_data = ws_data.concat(list);
 				
 				let wb = XLSX.utils.book_new();
-				this.$prompt(null, this.locale.toolbar.confirmFileName,{inputValue:this.title||'wandougongzhu'}).then(res=>{
+				this.$prompt(null, this.locale.toolbar.confirmFileName,{inputValue:this.title||Date.now()}).then(res=>{
 					let name = res.value;
 					let ws = XLSX.utils.aoa_to_sheet(ws_data);
 					if(colsConf)
