@@ -1,0 +1,7 @@
+.DS_Store
+.vscode
+node_modules/
+web/public/tmp/
+web/public/doc/
+web/public/resource/module/STable/
+_book
