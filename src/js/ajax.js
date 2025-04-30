@@ -199,10 +199,8 @@ function ajax(options) {
 							return;
 						}
 					}
-					if(result && typeof result.code!='undefined') {
-						result.errno = result.code;
-						result.errmsg = result.msg;
-					}
+					result.errno = !result.ret;
+					result.errmsg = result.message;
 					resolve([result, 'success', xhr]);
 				} else {
 					reject([xhr, xhr.status ? 'error' : 'abort', xhr.statusText || null]);

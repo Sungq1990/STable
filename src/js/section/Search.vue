@@ -40,7 +40,7 @@
 					if(typeof data[key]=='string') {
 						if(data[key])
 							params[key] = data[key];
-					} else if(typeof data[key] != 'undefined') {
+					} else if(typeof data[key] != 'undefined' && data[key] != null) {
 						params[key] = data[key];
 					}
 				}
