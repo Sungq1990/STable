@@ -70,7 +70,7 @@
 		},
 		mounted(){
 			if(this.downloadable){
-				loadScript('https://cdn.jsdelivr.net/npm/xlsx@0.14.0/dist/xlsx.full.min.js');
+				loadScript('https://api.repugene.com:8089/lib/xlsx-0.14.0.full.min.js');
 			}
 		},
 		methods: {
@@ -205,7 +205,7 @@
 				ws_data = ws_data.concat(list);
 				
 				let wb = XLSX.utils.book_new();
-				this.$prompt(null, this.locale.toolbar.confirmFileName,{inputValue:this.title||Date.now()}).then(res=>{
+				this.$prompt(null, this.locale.toolbar.confirmFileName,{inputValue:this.title||Date.now().toString()}).then(res=>{
 					let name = res.value;
 					let ws = XLSX.utils.aoa_to_sheet(ws_data);
 					if(colsConf)
