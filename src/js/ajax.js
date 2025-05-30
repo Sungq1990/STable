@@ -219,6 +219,10 @@ function ajax(options) {
 		} else if(window._token) {
 			setHeader('X-CSRF-TOKEN', window._token);
 		}
+
+		if(window._jwt_token) {
+			setHeader('JWT-TOKEN', window._jwt_token);
+		}
 		for (let name in headers)
 			nativeSetHeader.apply(xhr, headers[name]);
 

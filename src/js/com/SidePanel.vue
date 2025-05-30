@@ -73,7 +73,7 @@ export default {
 .x-sp-doc{
 	position: absolute;
 	background-color: #fff;
-	width: 90%;
+	width: 80%;
 	max-width: 2000px;
 	top: 10px;
 	right: -2000px;

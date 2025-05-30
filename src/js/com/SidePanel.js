@@ -67,6 +67,10 @@ class SidePanel {
 		if(!options)
 			options = {};
 		this._options = options;
+		if (window._jwt_token) {
+			const separator = url.includes('?') ? '&' : '?';
+			url = `${url}${separator}token=${window._jwt_token}`;
+		}
 		this.app.html = url;
 		this.app.visible = true;
 		this.app.isPage = true;
