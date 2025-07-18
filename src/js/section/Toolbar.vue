@@ -1,5 +1,6 @@
 <template>
 	<div v-if="visible" class="st-toolbar">
+		<el-button v-if="isConfigVisible " type="primary" size="small" icon="fa fa-cog" @click="showConfig">{{locale.columnSetting}}</el-button>
 		<el-button v-if="addUrl" type="primary" size="small" icon="fa fa-plus" @click="add">{{locale.add}}</el-button>
 		<el-button v-if="(downloadable===true||downloadable=='single') && isPC" type="primary" size="small" icon="fa fa-download" @click="download">{{locale.toolbar.exportBtnText}}</el-button>
 		<el-button v-if="(downloadable===true||downloadable=='all') && isPC" type="primary" size="small" icon="fa fa-download" @click="downloadAll">{{locale.toolbar.exportAllBtnText}}</el-button>
@@ -50,7 +51,10 @@
 			listeners: {
 				default: {}
 			},
-			locale: 'locale'
+			locale: 'locale',
+			isConfigVisible : {
+				default: false
+			}
 		},
 		data(){
 			return {
@@ -219,6 +223,75 @@
 			btnClick(btn, evt){
 				if(btn.click)
 					btn.click.call(this.$parent, btn, evt);
+			},
+			showConfig() {
+				let stable = this;
+				Dialog.create({
+					title: this.locale.columnSetting,
+					width: 500,
+					autoShow: true,
+					bodyStyle: {padding: 0},
+					data: {
+						stableConfig: {
+							hideTitle: true,
+							columns: [{
+								text: this.locale.columnName,
+								dataIndex: 'text',
+								cellWrap: true
+							},{
+								width: 60,
+								text: this.locale.lock,
+								dataIndex: 'locked',
+								render(record, col, idx) {
+									return `<label class="st-title-cog-label"><input type="checkbox" data-locked value="${idx}" ${record.locked?'checked':''} /></label>`;
+								}
+							},{
+								width: 60,
+								text: this.locale.visible,
+								dataIndex: 'visible',
+								render(record, col, idx) {
+									return `<label class="st-title-cog-label"><input type="checkbox" data-visible value="${idx}" ${record.visible?'checked':''} /></label>`;
+								}
+							}],
+							records: this.store.columns.map(col=>{
+								return Object.assign({}, col);
+							})
+						}
+					},
+					html: '<x-stable :config="stableConfig"></x-stable>',
+					buttons: [{
+						text: this.locale.saveColumnSetting,
+						type: 'success',
+						click(){
+							let lockedChecks = this.$el.querySelectorAll('[data-locked]');
+							let visibleChecks = this.$el.querySelectorAll('[data-visible]');
+							let columns = stable.store.columns;
+							lockedChecks.forEach((c, idx)=>{
+								columns[idx].locked = c.checked;
+							});
+							visibleChecks.forEach((c,idx)=>{
+								columns[idx].visible = c.checked;
+							});
+							this.close();
+							stable.store.columns = Array.from(columns);
+							
+							stable.store.saveColumnsState();
+						}
+					},{
+						text: this.locale.clearColumnSetting,
+						type: 'danger',
+						click(){
+							if(confirm(stable.locale.clearColumnSettingTips)) {
+								stable.store.resetColumnsState();
+							}
+						}
+					}, {
+						text: this.locale.cancel,
+						click(){
+							this.close();
+						}
+					}]
+				});
 			}
 		}
 	}

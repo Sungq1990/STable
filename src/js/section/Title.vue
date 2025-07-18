@@ -2,7 +2,6 @@
 	<div v-if="!hideTitle" class="st-title">
 		<div class="st-title-text" v-text="title"></div>
 		<div v-if="chart" @click="store.$emit('chartshow',$event)" class="st-title-tool st-title-">📊</div>
-		<div @click="showConfig" :title="locale.setting" class="st-title-tool">⚙</div>
 	</div>
 </template>
 <script>
