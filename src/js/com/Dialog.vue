@@ -17,6 +17,7 @@
 					:type="btn.type"
 					:form="btn.form"
 					:native-type="btn.nativeType"
+					:loading="btn.loading"
 					@click="btnClick(btn, $event)"
 					size="small">{{btn.text}}</el-button>
 			</div>
@@ -81,6 +82,9 @@
 						if(!btn.icon.startsWith('el-icon-')){
 							btn.icon = 'el-icon-_fa fa fa-'+btn.icon;
 						}
+					}
+					if (typeof btn.loading == 'undefined') {
+						Vue.set(btn, 'loading', false);
 					}
 				});
 			}
