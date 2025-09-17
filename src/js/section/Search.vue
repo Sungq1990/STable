@@ -72,7 +72,8 @@
 			},
 			reset(){
 				this.$refs.form.reset();
-				this.search();
+				const defaultParams = this.getParams();
+				this.search(defaultParams);
 			}
 		}
 	};
