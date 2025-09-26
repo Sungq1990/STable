@@ -74,11 +74,18 @@ export default {
 		},
 		sort(col){
 			if(col.sortable){
-				if(this.store.sortKey == col.dataIndex) {
-					this.store.sortDirection = this.store.sortDirection=='asc'?'desc':'asc';
+				const currentKey = this.store.sortKey;
+				const currentDirection = this.store.sortDirection;
+				const dataIndex = col.dataIndex;
+				
+				if (currentKey !== dataIndex) {
+						this.store.sortKey = dataIndex;
+						this.store.sortDirection = this.defaultSortDirection; 
+				} else if (currentDirection === this.defaultSortDirection) {
+						this.store.sortDirection = (this.defaultSortDirection === 'asc' ? 'desc' : 'asc');
 				} else {
-					this.store.sortKey = col.dataIndex;
-					this.store.sortDirection = this.defaultSortDirection;
+						this.store.sortKey = '';
+						this.store.sortDirection = this.defaultSortDirection;
 				}
 			}
 		}

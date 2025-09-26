@@ -4,6 +4,15 @@
 			<el-form-item>
 				<el-button type="primary" icon="fa fa-search" native-type="submit">{{locale.search}}</el-button>
 				<el-button v-if="searchResetable" @click="reset">{{locale.reset}}</el-button>
+				<template v-if="searchAreaBtns && searchAreaBtns.length > 0">
+					<el-button
+						v-for="(btn,idx) in searchAreaBtns"
+						:key="'btn_' + index"
+						:icon="btn.icon"
+						:type="btn.type"
+						@click="triggerClick(btn, $event)"
+						size="small">{{btn.text}}</el-button>
+				</template>
 			</el-form-item>
 		</x-form>
 	</div>
@@ -14,6 +23,9 @@
 		components:{XForm},
 		inject: {
 			searchFilter: {
+				default: false
+			},
+			searchAreaBtns: {
 				default: false
 			},
 			searchResetable: 'searchResetable',
@@ -74,6 +86,11 @@
 				this.$refs.form.reset();
 				const defaultParams = this.getParams();
 				this.search(defaultParams);
+			},
+			triggerClick(btn, evt){
+				if(btn.click) {
+					btn.click.call(this.$parent, evt);
+				}
 			}
 		}
 	};
